@@ -31,34 +31,26 @@ This is a web application for managing student interviews for Team Career Camp. 
 ### Folder structure
 
 placement-cell--backend
-│
 ├── node_modules
-│
 ├── src
-│ ├── config
-│ │ └── database.js
-│ │
-│ │
-│ ├── middlewares
-│ │ └── auth.middleware.js
-│ │
-│ ├── models
-│ │ ├── interview.model.js
-│ │ ├── result.model.js
-│ │ |── students.model.js
-| | └── user.model.js
-│ │
-│ ├── routers
-│ │ ├── interviews.router.js
-│ │ ├── result.router.js
-│ │ ├── students.router.js
-│ │ └── user.router.js
-│ │
-│ |── utils
-| | └── database.js
-│
-├── .gitignore # Files to ignore in version control
+│   ├── config
+│   │   └── database.js
+│   ├── middlewares
+│   │   └── auth.middleware.js
+│   ├── models
+│   │   ├── interview.model.js
+│   │   ├── result.model.js
+│   │   ├── students.model.js
+│   │   └── user.model.js
+│   ├── routers
+│   │   ├── interviews.router.js
+│   │   ├── result.router.js
+│   │   ├── students.router.js
+│   │   └── user.router.js
+│   └── utils
+│       └── database.js
+├── .gitignore          
 ├── app.js
-├── package.json # Project metadata and dependencies
-├── package-lock.json # Locked versions of dependencies
-└── README.md # Project documentation
+├── package.json        
+├── package-lock.json   
+└── README.md           
