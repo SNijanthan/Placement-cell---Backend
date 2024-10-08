@@ -20,7 +20,7 @@ This is a web application for managing student interviews for Team Career Camp. 
 - **express-validator**: A library for validating and sanitizing user input.
 - **cookie-parser**: Parse Cookie header and populate req.cookies with an object keyed by the cookie names
 - **exceljs**: A library for reading, manipulating, and writing Excel files
-  **CORS (Cross-Origin Resource Sharing)**: A security feature that allows or restricts resources on a web server to be requested from another domain. CORS is configured in the Express.js backend to allow secure cross-origin requests, enabling the front-end application to access the API hosted on a different domain.
+- **CORS (Cross-Origin Resource Sharing)**: A security feature that allows or restricts resources on a web server to be requested from another domain. CORS is configured in the Express.js backend to allow secure cross-origin requests, enabling the front-end application to access the API hosted on a different domain.
 
 ### Development Tools
 
