@@ -6,7 +6,7 @@ const Result = require("../models/result.model");
 
 const interViewRouter = express.Router();
 
-// Create new Interview
+// Create new Interview - Without students
 interViewRouter.post("/api/interviews", validateUser, async (req, res) => {
   try {
     const { company, date } = req.body;
@@ -20,17 +20,20 @@ interViewRouter.post("/api/interviews", validateUser, async (req, res) => {
   }
 });
 
-// Get all Interviews
+// Get all Interviews - Retrieving all the interview details
 interViewRouter.get("/api/interviews", validateUser, async (req, res) => {
   try {
-    const interviews = await Interview.find().populate("students");
+    const interviews = await Interview.find().populate(
+      "students",
+      "_id name status"
+    );
     res.status(200).json(interviews);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 });
 
-// Get Interview by ID
+// Get Interview by ID - Getting interview details by giving ID
 interViewRouter.get("/api/interviews/:id", validateUser, async (req, res) => {
   const { id } = req.params;
   try {

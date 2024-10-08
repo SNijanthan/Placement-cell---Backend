@@ -3,7 +3,7 @@ const { validateUser } = require("../middlewares/auth.middleware");
 const Result = require("../models/result.model");
 const Student = require("../models/students.model");
 const Interview = require("../models/interview.model");
-const json2csv = require("json2csv").parse; // NPM library to convert JSON to CSV
+const ExcelJS = require("exceljs");
 
 const resultRouter = express.Router();
 
@@ -34,7 +34,14 @@ resultRouter.post("/api/results", validateUser, async (req, res) => {
 // Get all Results
 resultRouter.get("/api/results", validateUser, async (req, res) => {
   try {
-    const results = await Result.find().populate("student interview");
+    const results = await Result.find().populate(
+      "student interview",
+      "name college batch company date"
+    );
+
+    if (results.length === 0) {
+      return res.json({ message: "No data available" });
+    }
     res.status(200).json(results);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -76,24 +83,61 @@ resultRouter.delete("/api/results/:id", validateUser, async (req, res) => {
   }
 });
 
-// Download CSV of Results
+// Download XLSX of all results
 resultRouter.get("/api/results/download", validateUser, async (req, res) => {
   try {
-    const results = await Result.find().populate("student interview");
+    const results = await Result.find()
+      .populate("student")
+      .populate("interview");
 
-    // Transform results into CSV format
-    const csvData = results.map((result) => ({
-      studentId: result.student._id,
-      studentName: result.student.name, // assuming you have a `name` field in Student model
-      interviewCompany: result.interview.companyName, // assuming you have a `companyName` field in Interview model
-      interviewDate: result.interview.date,
-      result: result.result,
-    }));
+    // Create a new Excel workbook and sheet
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Results");
 
-    const csv = json2csv(csvData);
-    res.header("Content-Type", "text/csv");
-    res.attachment("results.csv");
-    res.send(csv);
+    // Define the header row
+    worksheet.columns = [
+      { header: "Student ID", key: "studentId", width: 20 },
+      { header: "Student Name", key: "studentName", width: 30 },
+      { header: "Student College", key: "studentCollege", width: 30 },
+      { header: "Student Status", key: "studentStatus", width: 15 },
+      { header: "DSA Final Score", key: "DSA_FinalScore", width: 15 },
+      { header: "WebD Final Score", key: "WebD_FinalScore", width: 15 },
+      { header: "React Final Score", key: "React_FinalScore", width: 15 },
+      { header: "Interview Date", key: "interviewDate", width: 25 },
+      { header: "Interview Company", key: "interviewCompany", width: 25 },
+      {
+        header: "Interview Student Result",
+        key: "interviewStudentResult",
+        width: 20,
+      },
+    ];
+
+    // Add rows from the database results
+    results.forEach((result) => {
+      worksheet.addRow({
+        studentId: result.student._id,
+        studentName: result.student.name,
+        studentCollege: result.student.college,
+        studentStatus: result.student.status,
+        DSA_FinalScore: result.student.dsaFinalScore,
+        WebD_FinalScore: result.student.webDFinalScore,
+        React_FinalScore: result.student.reactFinalScore,
+        interviewDate: result.interview.date,
+        interviewCompany: result.interview.company,
+        interviewStudentResult: result.result,
+      });
+    });
+
+    // Write the workbook to a buffer and send it as a downloadable file
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader("Content-Disposition", "attachment; filename=results.xlsx");
+
+    workbook.xlsx.write(res).then(() => {
+      res.end();
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
