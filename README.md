@@ -8,11 +8,57 @@ This is a web application for managing student interviews for Team Career Camp. 
 - **Student Management:** View and add new students.
 - **Interview Management:** Create and view interviews, allocate students, and mark results.
 - **CSV Download:** Download a complete CSV file containing all relevant data.
-- **External Jobs List:** Fetch and display real available jobs for React/Node.js in India.
 
-## Technologies Used
+  ## Technologies Used
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
+- **Node.js**: A JavaScript runtime for building scalable server-side applications.
+- **Express.js**: A web application framework for Node.js, used for building RESTful APIs.
+- **Mongoose**: An ODM (Object Data Modeling) library for MongoDB and Node.js.
+- **MongoDB**: A NoSQL database for storing application data.
+- **jsonwebtoken**: A library for implementing JSON Web Tokens (JWT) for authentication.
+- **bcrypt**: A library for hashing passwords securely.
+- **express-validator**: A library for validating and sanitizing user input.
+- **cookie-parser**: Parse Cookie header and populate req.cookies with an object keyed by the cookie names
+- **exceljs**: A library for reading, manipulating, and writing Excel files
+
+### Development Tools
+
+- **Postman**: A tool for testing APIs.
+- **Nodemon**: A tool that helps develop Node.js applications by automatically restarting the server when file changes are detected.
+- **Git**: Version control system for tracking changes in source code.
+- **Visual Studio Code**: Code editor for developing and debugging applications.
+
+### Folder structure
+
+placement-cell--backend
+│
+├── node_modules
+│
+├── src
+│ ├── config
+│ │ └── database.js
+│ │
+│ │
+│ ├── middlewares
+│ │ └── auth.middleware.js
+│ │
+│ ├── models
+│ │ ├── interview.model.js
+│ │ ├── result.model.js
+│ │ |── students.model.js
+| | └── user.model.js
+│ │
+│ ├── routers
+│ │ ├── interviews.router.js
+│ │ ├── result.router.js
+│ │ ├── students.router.js
+│ │ └── user.router.js
+│ │
+│ |── utils
+| | └── database.js
+│
+├── .gitignore # Files to ignore in version control
+├── app.js
+├── package.json # Project metadata and dependencies
+├── package-lock.json # Locked versions of dependencies
+└── README.md # Project documentation
